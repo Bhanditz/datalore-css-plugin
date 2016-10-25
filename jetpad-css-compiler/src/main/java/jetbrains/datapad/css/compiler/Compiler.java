@@ -1,10 +1,10 @@
-package jetbrains.datapad.css;
+package jetbrains.datapad.css.compiler;
 
-import jetbrains.datapad.css.processor.CompilerProcessor;
-import jetbrains.datapad.css.processor.ConcatProcessor;
-import jetbrains.datapad.css.processor.Context;
-import jetbrains.datapad.css.processor.ImportsProcessor;
-import jetbrains.datapad.css.processor.Processor;
+import jetbrains.datapad.css.compiler.processor.CompilerProcessor;
+import jetbrains.datapad.css.compiler.processor.ConcatProcessor;
+import jetbrains.datapad.css.compiler.processor.Context;
+import jetbrains.datapad.css.compiler.processor.ImportsProcessor;
+import jetbrains.datapad.css.compiler.processor.Processor;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

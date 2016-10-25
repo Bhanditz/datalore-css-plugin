@@ -1,4 +1,4 @@
-package jetbrains.datapad.css;
+package jetbrains.datapad.css.compiler;
 
 public class Pair<FirstT, SecondT> {
   public final FirstT first;

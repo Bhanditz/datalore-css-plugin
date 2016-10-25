@@ -1,4 +1,4 @@
-package jetbrains.datapad.css.processor;
+package jetbrains.datapad.css.compiler.processor;
 
 import org.lesscss.LessCompiler;
 import org.lesscss.LessException;

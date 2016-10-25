@@ -1,6 +1,4 @@
-package jetbrains.datapad.css.processor;
-
-import jetbrains.datapad.css.Utils;
+package jetbrains.datapad.css.compiler.processor;
 
 import java.io.IOException;
 import java.nio.file.FileSystems;

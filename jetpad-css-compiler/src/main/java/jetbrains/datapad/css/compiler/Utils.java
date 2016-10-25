@@ -1,4 +1,4 @@
-package jetbrains.datapad.css;
+package jetbrains.datapad.css.compiler;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package jetbrains.datapad.css.processor;
+package jetbrains.datapad.css.compiler.processor;
 
 import java.nio.file.Path;
 import java.util.ArrayList;

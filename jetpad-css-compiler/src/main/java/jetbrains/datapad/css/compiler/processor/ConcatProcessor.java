@@ -1,6 +1,6 @@
-package jetbrains.datapad.css.processor;
+package jetbrains.datapad.css.compiler.processor;
 
-import jetbrains.datapad.css.Utils;
+import jetbrains.datapad.css.compiler.Utils;
 
 public class ConcatProcessor implements Processor {
   @Override
