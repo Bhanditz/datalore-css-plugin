@@ -13,7 +13,7 @@
   <parent>
     <artifactId>jetpad-css-plugin</artifactId>
     <groupId>jetbrains.datapad.css</groupId>
-    <version>1.1</version>
+    <version>1.2</version>
   </parent>
 
   <licenses>
