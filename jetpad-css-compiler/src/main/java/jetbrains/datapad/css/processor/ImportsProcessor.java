@@ -49,12 +49,7 @@ public class ImportsProcessor implements Processor {
     Matcher matcher = myImportPattern.matcher(content);
     List<GlobPattern> result = new ArrayList<>();
     while(matcher.find()) {
-      String relativePath = matcher.group(1);
-      String pattern = matcher.group(2);
-      if (!pattern.endsWith(Utils.EXTENSION)) {
-        pattern = pattern + "." + Utils.EXTENSION;
-      }
-      GlobPattern glob = new GlobPattern(relativePath, pattern);
+      GlobPattern glob = new GlobPattern(matcher.group(1), matcher.group(2));
       result.add(glob);
     }
     return result;
