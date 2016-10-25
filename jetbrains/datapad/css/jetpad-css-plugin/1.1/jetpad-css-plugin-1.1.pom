@@ -13,7 +13,7 @@
   <name>Jetpad Css Plugin</name>
 
   <modules>
-    <module>css-compiler</module>
+    <module>jetpad-css-compiler</module>
   </modules>
 
   <licenses>
