@@ -7,46 +7,56 @@ import org.apache.maven.plugins.annotations.LifecyclePhase;
 import org.apache.maven.plugins.annotations.Mojo;
 import org.apache.maven.plugins.annotations.Parameter;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-@Mojo(name = "compile", defaultPhase = LifecyclePhase.GENERATE_SOURCES)
+@Mojo(name = "css", defaultPhase = LifecyclePhase.PREPARE_PACKAGE)
 public class CssMojo extends AbstractMojo {
-  @Parameter
-  private CssBundle[] bundles;
+  @Parameter(property = "sources")
+  private String[] sources;
+  @Parameter(property = "baseDir")
+  private String baseDir;
+  @Parameter(property = "targetDir")
+  private String targetDir;
   @Parameter(defaultValue = "false")
   private boolean compress;
 
   public void execute() throws MojoExecutionException {
-    if (bundles == null || bundles.length == 0) {
-      return;
+    getLog().info("baseDir: " + baseDir);
+    getLog().info("targetDir: " + targetDir);
+    if (sources == null || sources.length == 0) {
+      throw new MojoExecutionException("sources list is empty");
     }
-    for (CssBundle bundle : bundles) {
-      compile(bundle.getSource(), bundle.getDest());
+    for (String source : sources) {
+      compile(Paths.get(baseDir,source), Paths.get(targetDir, toCssExt(source)));
     }
   }
 
-  private void compile(File source, File dest) throws MojoExecutionException {
+  private void compile(Path source, Path dest) throws MojoExecutionException {
     if (source == null) {
       throw new MojoExecutionException("source file is not specified");
     }
     if (dest == null) {
       throw new MojoExecutionException("dest file is not specified");
     }
-    if (!source.exists()) {
-      throw new MojoExecutionException("can't open file " + source.getAbsolutePath());
+    if (!Files.exists(source)) {
+      throw new MojoExecutionException("can't open file " + source.toString());
     }
 
     Compiler compiler = new Compiler(compress);
     try {
-      String result = compiler.compile(Paths.get(source.getPath())).getOutput();
-      Files.write(Paths.get(dest.getPath()), result.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+      String result = compiler.compile(source).getOutput();
+      Files.write(Paths.get(dest.toString()), result.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
     } catch (IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
-    getLog().info("css compiled: " + source.getAbsolutePath());
+    getLog().info("css compiled: " + dest.toString());
+  }
+
+  private String toCssExt(String uri) {
+    return uri.replaceAll(".less$", ".css");
   }
 }
