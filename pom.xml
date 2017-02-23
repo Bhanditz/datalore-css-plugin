@@ -7,7 +7,7 @@
   <groupId>jetbrains.datapad.css</groupId>
   <artifactId>jetpad-css-plugin</artifactId>
   <packaging>pom</packaging>
-  <version>1.1</version>
+  <version>1.2</version>
 
   <url>https://github.com/JetBrains/jetpad-css-plugin</url>
   <name>Jetpad Css Plugin</name>
