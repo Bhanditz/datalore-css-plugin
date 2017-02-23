@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <plugins>
+    <plugin>
+      <name>Jetpad Css Maven Compiler</name>
+      <prefix>jetpad-css-maven-plugin</prefix>
+      <artifactId>jetpad-css-maven-plugin</artifactId>
+    </plugin>
+  </plugins>
+</metadata>
