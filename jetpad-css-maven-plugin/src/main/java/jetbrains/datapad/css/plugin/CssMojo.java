@@ -35,25 +35,34 @@ public class CssMojo extends AbstractMojo {
     }
   }
 
-  private void compile(Path source, Path dest) throws MojoExecutionException {
-    if (source == null) {
+  private void compile(Path sourceFile, Path destFile) throws MojoExecutionException {
+    if (sourceFile == null) {
       throw new MojoExecutionException("source file is not specified");
     }
-    if (dest == null) {
+    if (destFile == null) {
       throw new MojoExecutionException("dest file is not specified");
     }
-    if (!Files.exists(source)) {
-      throw new MojoExecutionException("can't open file " + source.toString());
+    if (!Files.exists(sourceFile)) {
+      throw new MojoExecutionException("can't open file " + sourceFile.toString());
+    }
+
+    Path targetDir = destFile.getParent();
+    if (!Files.exists(targetDir)) {
+      try {
+        Files.createDirectories(targetDir);
+      } catch (IOException e) {
+        throw new MojoExecutionException("can't create dir " + targetDir.toString(), e);
+      }
     }
 
     Compiler compiler = new Compiler(compress);
     try {
-      String result = compiler.compile(source).getOutput();
-      Files.write(Paths.get(dest.toString()), result.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
+      String result = compiler.compile(sourceFile).getOutput();
+      Files.write(Paths.get(destFile.toString()), result.getBytes(), StandardOpenOption.CREATE, StandardOpenOption.WRITE);
     } catch (IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
-    getLog().info("css compiled: " + dest.toString());
+    getLog().info("css compiled: " + destFile.toString());
   }
 
   private String toCssExt(String uri) {
