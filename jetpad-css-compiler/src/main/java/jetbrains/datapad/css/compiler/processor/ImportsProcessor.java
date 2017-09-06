@@ -9,6 +9,7 @@ import java.nio.file.PathMatcher;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -63,9 +64,7 @@ public class ImportsProcessor implements Processor {
 
     for (GlobPattern pattern : patterns) {
       List<Path> matches = findFiles(parent, pattern);
-      for (Path match : matches) {
-        files.add(match);
-      }
+      files.addAll(matches);
     }
     return files;
   }
@@ -80,11 +79,22 @@ public class ImportsProcessor implements Processor {
       return result;
     }
 
+    List<Path> localDirFiles = new ArrayList<>();
     Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
+      @Override
+      public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+        if (localDirFiles.size() > 0) {
+          localDirFiles.sort(Comparator.comparing(Path::getFileName));
+          result.addAll(localDirFiles);
+          localDirFiles.clear();
+        }
+        return super.preVisitDirectory(dir, attrs);
+      }
+
       @Override
       public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
         if (matcher.matches(dir.relativize(path))) {
-          result.add(path);
+          localDirFiles.add(path);
         }
         return FileVisitResult.CONTINUE;
       }
