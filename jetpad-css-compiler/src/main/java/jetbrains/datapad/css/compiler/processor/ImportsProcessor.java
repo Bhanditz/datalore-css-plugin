@@ -47,7 +47,7 @@ public class ImportsProcessor implements Processor {
   private List<GlobPattern> readImports(String content) {
     Matcher matcher = myImportPattern.matcher(content);
     List<GlobPattern> result = new ArrayList<>();
-    while(matcher.find()) {
+    while (matcher.find()) {
       GlobPattern glob = new GlobPattern(matcher.group(1), matcher.group(2));
       result.add(glob);
     }
@@ -79,22 +79,11 @@ public class ImportsProcessor implements Processor {
       return result;
     }
 
-    List<Path> localDirFiles = new ArrayList<>();
     Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
-      @Override
-      public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-        if (localDirFiles.size() > 0) {
-          localDirFiles.sort(Comparator.comparing(Path::getFileName));
-          result.addAll(localDirFiles);
-          localDirFiles.clear();
-        }
-        return super.preVisitDirectory(dir, attrs);
-      }
-
       @Override
       public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
         if (matcher.matches(dir.relativize(path))) {
-          localDirFiles.add(path);
+          result.add(path);
         }
         return FileVisitResult.CONTINUE;
       }
@@ -104,6 +93,8 @@ public class ImportsProcessor implements Processor {
         return FileVisitResult.CONTINUE;
       }
     });
+
+    result.sort(Comparator.comparing(Path::getFileName));
     return result;
   }
 }

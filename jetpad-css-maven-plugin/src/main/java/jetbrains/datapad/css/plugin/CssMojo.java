@@ -25,7 +25,7 @@ public class CssMojo extends AbstractMojo {
   private boolean compress;
 
   public void execute() throws MojoExecutionException {
-    getLog().info("building css files");
+    getLog().info("BUILDING LESS");
     getLog().info("baseDir: " + baseDir);
     getLog().info("targetDir: " + targetDir);
     if (sources == null || sources.length == 0) {
