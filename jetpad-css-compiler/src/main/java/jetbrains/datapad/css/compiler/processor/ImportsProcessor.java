@@ -94,7 +94,7 @@ public class ImportsProcessor implements Processor {
       }
     });
 
-    result.sort(Comparator.comparing(Path::getFileName));
+    result.sort(Comparator.comparing(Path::toString));
     return result;
   }
 }
