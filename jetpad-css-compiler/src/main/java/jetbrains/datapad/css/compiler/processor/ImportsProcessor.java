@@ -70,10 +70,10 @@ public class ImportsProcessor implements Processor {
   }
 
   private List<Path> findFiles(Path parent, GlobPattern pattern) throws IOException {
-    final List<Path> result = new ArrayList<>();
-    final PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern.getPattern());
-    final String relativePath = pattern.getRelativePath() != null ? pattern.getRelativePath() : "";
-    final Path dir = parent.resolve(relativePath);
+    List<Path> result = new ArrayList<>();
+    PathMatcher matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern.getPattern());
+    String relativePath = pattern.getRelativePath() != null ? pattern.getRelativePath() : "";
+    Path dir = parent.resolve(relativePath);
 
     if (!Files.exists(dir)) {
       return result;
@@ -81,7 +81,7 @@ public class ImportsProcessor implements Processor {
 
     Files.walkFileTree(dir, new SimpleFileVisitor<Path>() {
       @Override
-      public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+      public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) {
         if (matcher.matches(dir.relativize(path))) {
           result.add(path);
         }
@@ -89,7 +89,7 @@ public class ImportsProcessor implements Processor {
       }
 
       @Override
-      public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
+      public FileVisitResult visitFileFailed(Path file, IOException exc) {
         return FileVisitResult.CONTINUE;
       }
     });

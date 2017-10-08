@@ -27,7 +27,7 @@ public class Compiler {
 
   public Context compile(Path input) {
     if (!Files.exists(input) || !Files.isReadable(input)) {
-      throw new RuntimeException("Can't open file " + input.toString());
+      throw new RuntimeException("Can't open file " + input);
     }
 
     Context context = new Context(input);

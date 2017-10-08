@@ -24,6 +24,7 @@ public class CssMojo extends AbstractMojo {
   @Parameter(defaultValue = "false")
   private boolean compress;
 
+  @Override
   public void execute() throws MojoExecutionException {
     getLog().info("BUILDING LESS");
     getLog().info("baseDir: " + baseDir);
@@ -44,7 +45,7 @@ public class CssMojo extends AbstractMojo {
       throw new MojoExecutionException("dest file is not specified");
     }
     if (!Files.exists(sourceFile)) {
-      throw new MojoExecutionException("can't open file " + sourceFile.toString());
+      throw new MojoExecutionException("can't open file " + sourceFile);
     }
 
     Path targetDir = destFile.getParent();
@@ -52,7 +53,7 @@ public class CssMojo extends AbstractMojo {
       try {
         Files.createDirectories(targetDir);
       } catch (IOException e) {
-        throw new MojoExecutionException("can't create dir " + targetDir.toString(), e);
+        throw new MojoExecutionException("can't create dir " + targetDir, e);
       }
     }
 
@@ -63,7 +64,7 @@ public class CssMojo extends AbstractMojo {
     } catch (IOException e) {
       throw new MojoExecutionException(e.getMessage(), e);
     }
-    getLog().info("css compiled: " + destFile.toString());
+    getLog().info("css compiled: " + destFile);
   }
 
   private String toCssExt(String uri) {
